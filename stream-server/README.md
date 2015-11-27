@@ -10,7 +10,7 @@ No-hassle videostreaming that just works.
 # Step 1
 
 1. `npm install`
-2. Deploy this app on heroku, then run it with `heroku ps:scale web=1`. Give it a URL. Remember it. eg. http://q42-live-fun.herokuapp.com/
+2. Deploy this app on heroku. You can use `git subtree push --prefix stream-server heroku master` to just push the stream-server directory. Then run it with `heroku ps:scale web=1`. Give it a URL. Remember it. eg. http://q42-live-fun.herokuapp.com/
 *Use at least a hobby level dyno. Free dynos get shut down 6 out of 24 hours in a day.*
 
 # Step 2
