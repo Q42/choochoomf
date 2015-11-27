@@ -22,8 +22,8 @@
       z-index: -1;
 		}
 
-		.section {
-			padding-top: 5px;
+		.section header {
+			padding-bottom: 10px;
 		}
 
 		#direction {
@@ -38,10 +38,15 @@
 			top: 20px;
 		}
 
+		#camera div {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
 
 		button {
 			padding: 5px 10px;
 			box-shadow: none;
+			cursor: pointer;
 			border: none;
 			background: #ffd65c;
 			color: #006;
@@ -68,17 +73,19 @@
     <header>
       Direction
     </header>
-    <button>Forward</button>
-    <button>Backwards</button>
+    <button onclick="console.log('forward')">Forward</button>
+    <button onclick="console.log('backwards')">Backwards</button>
   </div>
   <div id="camera" class="section">
     <header>
       Camera
     </header>
-    <button class="fa fa-arrow-up"></button>
-    <button class="fa fa-arrow-right"></button>
-    <button class="fa fa-arrow-down"></button>
-    <button class="fa fa-arrow-left"></button>
+    <button onclick="console.log('up')" class="fa fa-arrow-up"></button>
+		<div>
+	    <button onclick="console.log('left')" class="fa fa-arrow-left"></button>
+			<button onclick="console.log('right')" class="fa fa-arrow-right"></button>
+		</div>
+		<button onclick="console.log('bottom')" class="fa fa-arrow-down"></button>
   </div>
 
 	<script type="text/javascript" src="jsmpg.js"></script>
