@@ -1,6 +1,7 @@
 var PORT = 4242;
 
 var train = require('./train.js');
+var swivelapi = require('./swivelapi.js')
 
 var app = require('express')();
 var server = require('http').Server(app);
@@ -45,6 +46,26 @@ app.post('/speed', function(req, res) {
 app.get('/stop', function(req, res) {
   console.log('Stopping train');
   train.stop();
+  res.json({
+    "success": true,
+  })
+});
+
+app.post('/swivelx', function(req, res) {
+  var x = parseFloat(req.body.x);
+  
+  swivelapi.setSwivelX(x);
+
+  res.json({
+    "success": true,
+  })
+});
+
+app.post('/swively', function(req, res) {
+  var y = parseFloat(req.body.y);
+  
+  swivelapi.setSwivelY(y);
+
   res.json({
     "success": true,
   })
