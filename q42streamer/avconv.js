@@ -18,7 +18,7 @@ var stream = avconv(params);
 // An object of options to indicate where to post to
 var post_options = {
       //host: 'q42videoserver.mod.bz',
-      host: 'q42-live-1.herokuapp.com',
+      host: 'thomasthetrain.herokuapp.com',
       port: '80',
       path: '/video070/640/480',
       method: 'POST'

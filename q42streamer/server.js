@@ -3,7 +3,7 @@ var STREAM_SECRET = process.argv[2] || "video070",
 	STREAM_PORT = process.env.PORT || 8080,
 	STREAM_MAGIC_BYTES = 'jsmp'; // Must be 4 bytes
 
-var PINGURL = ""; //"http://q42-live-1.herokuapp.com/test"
+var PINGURL = ""; //"http://thomasthetrain.herokuapp.com/test"
 
 var width = 640,
 	height = 480;
