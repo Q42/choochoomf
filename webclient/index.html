@@ -73,22 +73,25 @@
     <header>
       Direction
     </header>
-    <button onclick="console.log('forward')">Forward</button>
-    <button onclick="console.log('backwards')">Backwards</button>
+    <button onclick="tF()">Forward</button>
+    <button onclick="tS()">Stop</button>
+    <button onclick="tB()">Backwards</button>
   </div>
   <div id="camera" class="section">
     <header>
       Camera
     </header>
-    <button onclick="console.log('up')" class="fa fa-arrow-up"></button>
+    <button onclick="cUp()" class="fa fa-arrow-up"></button>
 		<div>
-	    <button onclick="console.log('left')" class="fa fa-arrow-left"></button>
-			<button onclick="console.log('right')" class="fa fa-arrow-right"></button>
+	    <button onclick="cLeft()" class="fa fa-arrow-left"></button>
+	    <button onclick="cCenter()" class="fa fa-circle"></button>
+			<button onclick="cRight()" class="fa fa-arrow-right"></button>
 		</div>
-		<button onclick="console.log('bottom')" class="fa fa-arrow-down"></button>
+		<button onclick="cBottom()" class="fa fa-arrow-down"></button>
   </div>
 
 	<script type="text/javascript" src="jsmpg.js"></script>
+	<script type="text/javascript" src="controls.js"></script>
 	<script type="text/javascript">
 		// Setup the WebSocket connection and start the player
 		var client = new WebSocket( 'ws://q42-live-1.herokuapp.com/' );
