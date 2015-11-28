@@ -8,7 +8,7 @@ var params = [
     '-i', '/dev/video0',
     '-f', 'mpeg1video',
     '-b', '800k',
-    '-vf', 'hflip,vflip',
+//    '-vf', 'hflip,vflip',
     '-r', '30',
     'pipe:1'
 ];

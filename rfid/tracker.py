@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 import requests
+from time import sleep
 
 continue_reading = True
 last_uid = ""
@@ -19,12 +20,15 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 
 while continue_reading:
+    sleep(0.03)
     (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
     (status,uid) = MIFAREReader.MFRC522_Anticoll()
     if status == MIFAREReader.MI_OK:
 	uid = str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3])
 	if uid != last_uid:
-		print "New tag: ", uid
+		print "Sending tag: ", uid
 		last_uid = uid
 		r = requests.post("http://127.0.0.1:4242/location", data={'location':uid})
+        else:
+		print "Ignoring tag: ", uid
 

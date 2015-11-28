@@ -123,14 +123,14 @@ function setX(val){
 	var x = computeX(val);
 
 	console.log('Position', x);
-	piblaster.setPwm(18, x);
+	piblaster.setPwm(21, x);
 }
 
 function setY(val){
 	var y = computeY(val);
 
 	console.log('Position', y);
-	piblaster.setPwm(27, y);
+	piblaster.setPwm(4, y);
 }
 
 function computeX(value){

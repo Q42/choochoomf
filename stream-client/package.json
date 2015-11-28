@@ -4,7 +4,7 @@
   "description": "Client side for the choochoo stream",
   "main": "avconv.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Q42",
   "license": "ISC",
