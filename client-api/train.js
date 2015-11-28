@@ -15,12 +15,12 @@ module.exports = {
 // GPIO 24 (pin 18 on A+) is backward direction, wired to L298n IN2
 
 var piblaster = require('pi-blaster.js');
-// var Gpio = require('onoff').Gpio,
-//   fwd = new Gpio(23, 'out'),
-//   back = new Gpio(24, 'out'),
-//   go_fwd = 0,
-//   go_back = 0,
-//   speed = 0;
+var Gpio = require('onoff').Gpio,
+  fwd = new Gpio(23, 'out'),
+  back = new Gpio(24, 'out'),
+  go_fwd = 0,
+  go_back = 0,
+  speed = 0;
 
 function updateSpeed(arg) {
   this.speed = arg;
