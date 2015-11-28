@@ -8,6 +8,14 @@ function animate() {
   // var initalClassList = body.classList;
   body.classList.add('trainRiding');
 
+  setTimeout(function() {
+    body.classList.add('translate');
+  },200);
+
+  setTimeout(function(){
+    body.classList.remove('translate');
+  }, 1600);
+
   setTimeout(function(){
     body.classList.remove('trainRiding');
   }, 2000);
