@@ -11,15 +11,24 @@ app.use(bp.json());
 app.use(bp.urlencoded({
   extended: true
 }));
+var swig = require('swig');
 
 var locations = require('./locations.json');
 var lastKnownLocation = {};
 var objective = {};
 
-app.use(express.static('public'));
+app.engine('html', swig.renderFile);
+
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
+
+app.use('/css', express.static(__dirname + '/views/css'));
+app.use('/img', express.static(__dirname + '/views/img'));
+app.use('/js', express.static(__dirname + '/views/js'));
+app.use('/sound', express.static(__dirname + '/views/sound'));
 
 app.get('/', function(req, res) {
-  res.sendFile('index.html');
+  res.render('index', {locations: locations});
 });
 
 app.route('/location')
