@@ -5,7 +5,6 @@ function goTo(location) {
 
 function animate() {
   var body = document.getElementsByTagName('body')[0];
-  // var initalClassList = body.classList;
   body.classList.add('trainRiding');
 
   setTimeout(function() {
