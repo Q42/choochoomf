@@ -42,6 +42,10 @@ app.post('/speed', function(req, res) {
   }
 });
 
+app.post('/location', function(req, res){
+  console.log(req.body);
+});
+
 app.get('/stop', function(req, res) {
   console.log('Stopping train');
   train.stop();
