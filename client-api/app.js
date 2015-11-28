@@ -52,17 +52,10 @@ app.route('/location')
       return;
     }
 
+    console.log('Reached location: ' + locations[req.body.location]['name'] + '. Stopping.');
+
     lastKnownLocation = locations[req.body.location];
-
-    // If the location is either start or end of the track, stop
-    if (locations[req.body.location] === "Start" || locations[req.body.location] === "End")
-      train.stop();
-
-    // If the location has been set as an objective, also stop.
-    if (locations[req.body.location] === objective) {
-      train.stop();
-      objective = {};
-    }
+    train.stop();
 
     res.json({
       "success": true
