@@ -3,7 +3,8 @@ var PORT = 4242;
 var train = require('./train.js');
 var swivelapi = require('./swivelapi.js')
 
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var bp = require('body-parser');
 app.use(bp.json());
@@ -11,12 +12,10 @@ app.use(bp.urlencoded({
   extended: true
 }));
 
+app.use(express.static('public'));
+
 app.get('/', function(req, res) {
-  console.log('Something should happen here.');
-  res.json({
-    "success": true,
-    "result": "Yay!"
-  });
+  res.sendFile('index.html');
 });
 
 app.post('/speed', function(req, res) {
@@ -53,7 +52,7 @@ app.get('/stop', function(req, res) {
 
 app.post('/swivelx', function(req, res) {
   var x = parseFloat(req.body.x);
-  
+
   swivelapi.setSwivelX(x);
 
   res.json({
@@ -63,7 +62,7 @@ app.post('/swivelx', function(req, res) {
 
 app.post('/swively', function(req, res) {
   var y = parseFloat(req.body.y);
-  
+
   swivelapi.setSwivelY(y);
 
   res.json({
