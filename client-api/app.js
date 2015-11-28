@@ -43,7 +43,7 @@ app.post('/speed', function(req, res) {
 });
 
 app.post('/location', function(req, res){
-  console.log(req.body);
+  console.log(req.body.location);
 
   res.json({
     "success": true
