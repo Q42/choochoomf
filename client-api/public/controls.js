@@ -1,3 +1,18 @@
+function goTo(location) {
+  console.log('location',location);
+  animate();
+}
+
+function animate() {
+  var body = document.getElementsByTagName('body')[0];
+  // var initalClassList = body.classList;
+  body.classList.add('trainRiding');
+
+  setTimeout(function(){
+    body.classList.remove('trainRiding');
+  }, 2000);
+}
+
 function tF() {
   post('speed', {
     speed: 1

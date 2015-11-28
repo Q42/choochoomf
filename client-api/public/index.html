@@ -5,21 +5,81 @@
 	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 	<title>jsmpeg streaming</title>
 	<style type="text/css">
+
+		@keyframes ride {
+		  0% {
+		    bottom: 2px;
+		  }
+
+			25% {
+				bottom: 0px;
+			}
+
+			50% {
+				bottom: -2px;
+			}
+
+			75% {
+				bottom: 0px;
+			}
+
+		  100% {
+		  	bottom: 2px;
+		  }
+		}
+
+		@keyframes rideLeftToRight {
+			0% {
+				left: -300px;
+			}
+
+			100% {
+				left: 100%;
+			}
+		}
+
 		body {
-			background: #333;
+			background: white;
 			text-align: center;
       position: relative;
 			font-family: 'Montserrat', sans-serif;
+			margin: 0;
+			overflow: hidden;
 		}
+
+		.wrapper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			transform: translateY(0);
+			transition: transform 0.3s;
+			overflow: hidden;
+		}
+
+		.ridingTrainAnimation {
+			height: 15%;
+			position: relative;
+		}
+
+		.ridingTrainAnimation img {
+			position: absolute;
+			bottom: 0;
+			left: -300px;
+			width: 300px;
+		}
+
 		#videoCanvas {
 			/* Always stretch the canvas to 640x480, regardless of its
 			internal size. */
-			position: fixed;
+			position: absolute;
 			top: 50%;
 			left: 0;
 			width: 100%;
 			transform: translateY(-50%);
       z-index: -1;
+			background: blue;
 		}
 
 		.section header {
@@ -56,7 +116,7 @@
 			margin-left: 1%;
 		}
 
-		#locations button:first-child {
+		#locations button:first-of-type {
 			margin-left: 0;
 		}
 
@@ -78,6 +138,21 @@
 			border-bottom: solid 4px #fc3;
 			margin-bottom: 2px;
 		}
+
+
+
+		.trainRiding {
+
+		}
+		.trainRiding .wrapper {
+			transform: translateY(15%);
+		}
+		.trainRiding .ridingTrainAnimation img{
+			animation: 0.5s ride infinite ease-out, rideLeftToRight 2s ease-in-out;
+		}
+		.trainRiding {
+
+		}
 	</style>
 </head>
 <body>
@@ -85,41 +160,53 @@
 		change this internal resolution to whatever the source provides. The size the
 		canvas is displayed on the website is dictated by the CSS style.
 	-->
-	<canvas id="videoCanvas" width="640" height="480">
-		<p>
-			Please use a browser that supports the Canvas Element, like
-			<a href="http://www.google.com/chrome">Chrome</a>,
-			<a href="http://www.mozilla.com/firefox/">Firefox</a>,
-			<a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-		</p>
-	</canvas>
-  <div id="direction" class="section">
-    <header>
-      Direction
-    </header>
-    <button onclick="tF()">Forward</button>
-    <button onclick="tS()">Stop</button>
-    <button onclick="tB()">Backwards</button>
-  </div>
-  <div id="camera" class="section">
-    <header>
-      Camera
-    </header>
-    <button onclick="cUp()" class="fa fa-arrow-up"></button>
-		<div>
-	    <button onclick="cLeft()" class="fa fa-arrow-left"></button>
-	    <button onclick="cCenter()" class="fa fa-circle"></button>
-			<button onclick="cRight()" class="fa fa-arrow-right"></button>
-		</div>
-		<button onclick="cDown()" class="fa fa-arrow-down"></button>
-  </div>
-
-	<div id="locations">
-		<button onclick="goTo('front')">Begin</button>
-		<button onclick="goTo('1')">1</button>
-		<button onclick="goTo('2')">2</button>
-		<button onclick="goTo('end')">Eind</button>
+	<div class="ridingTrainAnimation">
+		<img src="img/train.png" />
 	</div>
+
+	<div class="wrapper">
+		<canvas id="videoCanvas" width="640" height="480">
+			<p>
+				Please use a browser that supports the Canvas Element, like
+				<a href="http://www.google.com/chrome">Chrome</a>,
+				<a href="http://www.mozilla.com/firefox/">Firefox</a>,
+				<a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+			</p>
+		</canvas>
+		<div id="direction" class="section">
+			<header>
+				Direction
+			</header>
+			<button onclick="tF()">Forward</button>
+			<button onclick="tS()">Stop</button>
+			<button onclick="tB()">Backwards</button>
+		</div>
+		<div id="camera" class="section">
+			<header>
+				Camera
+			</header>
+			<button onclick="cUp()" class="fa fa-arrow-up"></button>
+			<div>
+				<button onclick="cLeft()" class="fa fa-arrow-left"></button>
+				<button onclick="cCenter()" class="fa fa-circle"></button>
+				<button onclick="cRight()" class="fa fa-arrow-right"></button>
+			</div>
+			<button onclick="cDown()" class="fa fa-arrow-down"></button>
+		</div>
+
+		<div id="locations" class="section">
+			<header>
+				Stationnetjes
+			</header>
+			<button onclick="goTo('front')">Begin</button>
+			<button onclick="goTo('1')">1</button>
+			<button onclick="goTo('2')">2</button>
+			<button onclick="goTo('end')">Eind</button>
+		</div>
+	</div>
+
+
+
 
 	<script type="text/javascript" src="jsmpg.js"></script>
 	<script type="text/javascript" src="controls.js"></script>
@@ -129,6 +216,5 @@
 		var canvas = document.getElementById('videoCanvas');
 		var player = new jsmpeg(client, {canvas:canvas});
 	</script>
-
-
-</body></html>
+</body>
+</html>
