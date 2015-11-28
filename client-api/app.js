@@ -133,7 +133,7 @@ app.get('/stop', function(req, res) {
 app.post('/pan', function(req, res) {
   var x = parseFloat(req.body.direction);
 
-  swivelapi.pan(x);
+  swivelapi.panDelta(x);
 
   res.json({
     "success": true,
@@ -144,7 +144,7 @@ app.post('/pan', function(req, res) {
 app.post('/tilt', function(req, res) {
   var y = parseFloat(req.body.direction);
 
-  swivelapi.tilt(y);
+  swivelapi.tiltDelta(y);
 
   res.json({
     "success": true,

@@ -2,65 +2,121 @@ var piblaster = require('pi-blaster.js');
 
 var PAN = 'PAN';
 var TILT = 'TILT';
+var NONE = 'NONE';
+var LOOPRATE = 1000/20;
+var MOTOR_COOLDOWN = 500;
+var STEP_SIZE = 0.1;
 
-var lock;
+var initializing = false;
 
 module.exports = {
 
-	pan: function(value){
-		if(lock && lock != PAN){
-			return;
-		}
+	panTo: function (panValue) {
+		if(initializing) return;
 
-		var newVal = previousX + (value * 0.1);
-		if(newVal > 1 || newVal < -1){
-			return;
-		}
-
-		setX(newVal);
-		previousX = newVal;
-		lock = PAN;
-		renewLock();
+		if(panValue < -1) panValue = -1;
+		if(panValue > 1) panValue = 1;
+		targetPan = panValue;
+		activateGameLoop();
 	},
-	tilt: function(value){
-		if(lock && lock != TILT){
-			return;
-		}
-		
-		var newVal = previousY + (value * 0.1);
+	tiltTo: function (tiltValue) {
+		if(initializing) return;
 
-		if(newVal > 1 || newVal < -1){
-			return;
-		}
-
-		setY(newVal);
-		previousY = newVal;
-		lock = TILT;
-		renewLock();
+		if(tiltValue < -1) tiltValue = -1;
+		if(tiltValue > 1) tiltValue = 1;
+		targetTilt = tiltValue;
+		activateGameLoop();
 	},
-	center: function(){
+	panTiltTo: function(panValue, tiltValue) {
+		this.panTo(panValue);
+		this.tiltTo(tiltValue);
+	},
+	panDelta: function(value){
+		this.panTo(currentPan + value * 0.1);
+	},
+	tiltDelta: function(value){
+		this.tiltTo(currentTilt + value * 0.1);
+	},
+	center: function() {
+		this.panTiltTo(0,0);
+	},
+	init: function() {
+		initializing = true;
 		setX(0);
-		setTimeout(function(){
+		setTimeout(function() {
 			setY(0);
+			setTimeout(function () {
+				initializing = false;
+			}, 2000);
 		}, 2000);
 	}
 }
 
-var previousX = 0;
-var previousY = 0;
+var currentPan = 0;
+var currentTilt = 0;
+var targetPan = 0;
+var targetTilt = 0;
 
-var interval;
+var backoffTimer = 0;
+var lastAction = NONE;
+var gameLoopActive = false;
 
-function renewLock(){
-	if(interval)
-		clearInterval(interval);
-
-	interval = setInterval(releaseLock, 500);
+function continueGameLoop() {
+	gameLoopActive = true;
+	setTimeout(gameLoop, LOOPRATE);
 }
 
-function releaseLock(){
-	lock = undefined;
-	console.log('Releasing lock', lock);
+function activateGameLoop() {
+	if(!gameLoopActive) {
+		gameLoopActive = true;
+		gameLoop();
+	}
+}
+
+function gameLoop() {
+	if(backoffTimer > 0)
+	{
+		backoffTimer -= LOOPRATE;
+		if (backoffTimer < 0) backoffTimer = 0;
+		continueGameLoop();
+	}
+	else if(targetPan != currentPan)
+	{
+		if(lastAction != PAN) {
+			backoffTimer += MOTOR_COOLDOWN;
+		}
+		else {
+			currentPan = stepValueTowards(currentPan, targetPan, STEP_SIZE);
+			setX(currentPan);
+		}
+		lastAction = PAN;
+		continueGameLoop();
+	}
+	else if(targetTilt != currentTilt)
+	{
+		if(lastAction != TILT) {
+			backoffTimer += MOTOR_COOLDOWN;
+		}
+		else {
+			currentTilt = stepValueTowards(currentTilt, targetTilt, STEP_SIZE);
+			setY(currentTilt);
+		}
+		lastAction = TILT;
+		continueGameLoop();
+	}
+	gameLoopActive = false;
+}
+
+function stepValueTowards(cur, tgt, step) {
+	if(tgt > cur) {
+		cur += step;
+		if(cur > tgt) cur = tgt;
+	}
+	if(tgt < cur) {
+		cur -= step;
+		if(cur < tgt) cur = tgt;
+	}
+	return cur;
 }
 
 function setX(val){
@@ -78,11 +134,9 @@ function setY(val){
 }
 
 function computeX(value){
-	var coefficient = ((value + 1) * 0.05) + 0.1;
-	return (coefficient % 1)/10 + 0.1
+	return (0.15+value/10);
 }
 
 function computeY(value){
-	var coefficient = ((value + 1) * 0.05) + 0.1;
-	return ((coefficient*1.3) % 1)/10 + 0.1
+	return (0.15+value/10);
 }
