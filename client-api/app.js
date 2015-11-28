@@ -99,10 +99,10 @@ app.get('/stop', function(req, res) {
 });
 
 // Pan the camera
-app.post('/swivelx', function(req, res) {
+app.post('/pan', function(req, res) {
   var x = parseFloat(req.body.direction);
 
-  swivelapi.setSwivelX(x);
+  swivelapi.pan(x);
 
   res.json({
     "success": true,
@@ -110,10 +110,10 @@ app.post('/swivelx', function(req, res) {
 });
 
 // Tilt the camera
-app.post('/swively', function(req, res) {
+app.post('/tilt', function(req, res) {
   var y = parseFloat(req.body.direction);
 
-  swivelapi.setSwivelY(y);
+  swivelapi.tilt(y);
 
   res.json({
     "success": true,

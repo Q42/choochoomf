@@ -24,7 +24,7 @@ function tB() {
 }
 
 function cUp() {
-  post('swivelY', {
+  post('tilt', {
     direction: 1
   }, function() {
     // callback
@@ -33,7 +33,7 @@ function cUp() {
 }
 
 function cDown() {
-  post('swivelY', {
+  post('tilt', {
     direction: -1
   }, function() {
     // callback
@@ -42,7 +42,7 @@ function cDown() {
 }
 
 function cLeft() {
-  post('swivelX', {
+  post('pan', {
     direction: -1
   }, function() {
     // callback
@@ -58,7 +58,7 @@ function cCenter() {
 }
 
 function cRight() {
-  post('swivelX', {
+  post('pan', {
     direction: 1
   }, function() {
     // callback
