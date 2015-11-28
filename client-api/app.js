@@ -12,8 +12,12 @@ app.use(bp.urlencoded({
   extended: true
 }));
 
-// TODO: locaties toevoegen
-var locations = [];
+var locations = [
+  "136,4,85,235",
+  "136,4,55,235",
+  "136,4,73,234",
+  "136,4,86,235"
+];
 var lastKnownLocation;
 var objective;
 
@@ -39,7 +43,7 @@ app.route('/location')
     lastKnownLocation = req.body.location;
 
     // If the location is either start or end of the track, stop
-    // if (req.body.location === locations[0] || req.body.location === locations[locations.size - 1])
+    if (req.body.location === locations[0] || req.body.location === locations[locations.size - 1])
       train.stop();
 
     // If the location has been set as an objective, also stop.
