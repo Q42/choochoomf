@@ -24,27 +24,46 @@ function tB() {
 }
 
 function cUp() {
+  post('tilt', {
+    direction: 1
+  }, function() {
+    // callback
+  });
   console.log('up');
 }
 
 function cDown() {
+  post('tilt', {
+    direction: -1
+  }, function() {
+    // callback
+  });
   console.log('down');
 }
 
 function cLeft() {
+  post('pan', {
+    direction: -1
+  }, function() {
+    // callback
+  });
   console.log('left');
 }
 
 function cCenter() {
+  post('center', { }, function() {
+    // callback
+  });
   console.log('center');
 }
 
 function cRight() {
+  post('pan', {
+    direction: 1
+  }, function() {
+    // callback
+  });
   console.log('right');
-}
-
-function cBottom() {
-  console.log('bottom');
 }
 
 /*
