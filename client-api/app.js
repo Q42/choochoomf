@@ -25,7 +25,7 @@ app.get('/', function(req, res) {
 
 app.route('/location')
   // Get the last known location
-  .get(function(res, req) {
+  .get(function(req, res) {
     console.log('sending last known location: ' + lastKnownLocation);
     res.json({
       "success": true,
@@ -33,7 +33,7 @@ app.route('/location')
     });
   })
   // Set the location (used by NFC scanner)
-  .post(function(res, req) {
+  .post(function(req, res) {
     // TODO: this is only for internal use, perhaps secure it in some way?
     console.log(req.body.location);
     lastKnownLocation = req.body.location;
@@ -54,7 +54,7 @@ app.route('/location')
   });
 
 // Get all the current locations
-app.get('/locations', function(res, req) {
+app.get('/locations', function(req, res) {
   console.log('Sending list of locations');
   res.json({
     "success": true,
