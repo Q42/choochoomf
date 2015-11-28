@@ -45,6 +45,8 @@ app.post('/speed', function(req, res) {
 app.post('/location', function(req, res){
   console.log(req.body.location);
 
+  train.setSpeed(0);
+
   res.json({
     "success": true
   })
