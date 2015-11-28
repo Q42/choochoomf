@@ -100,7 +100,7 @@ app.get('/stop', function(req, res) {
 
 // Pan the camera
 app.post('/swivelx', function(req, res) {
-  var x = parseFloat(req.body.x);
+  var x = parseFloat(req.body.direction);
 
   swivelapi.setSwivelX(x);
 
@@ -111,7 +111,7 @@ app.post('/swivelx', function(req, res) {
 
 // Tilt the camera
 app.post('/swively', function(req, res) {
-  var y = parseFloat(req.body.y);
+  var y = parseFloat(req.body.direction);
 
   swivelapi.setSwivelY(y);
 
@@ -119,6 +119,7 @@ app.post('/swively', function(req, res) {
     "success": true,
   })
 });
+
 
 // Go to a specified location
 app.post('/go', function(req, res) {
@@ -136,6 +137,17 @@ app.post('/go', function(req, res) {
   train.setSpeed(target - current / Math.abs(target - current));
 });
 
+app.post('/center', function(req, res) {
+  swivelapi.center();
+
+  res.json({
+    "success": true,
+  })
+
+});
+
 server.listen(PORT, function() {
   console.log('Server listening on port ' + PORT);
+
+  swivelapi.center();
 });
