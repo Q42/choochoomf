@@ -12,14 +12,9 @@ app.use(bp.urlencoded({
   extended: true
 }));
 
-var locations = [
-  "136,4,85,235",
-  "136,4,55,235",
-  "136,4,73,234",
-  "136,4,86,235"
-];
-var lastKnownLocation;
-var objective;
+var locations = require('./locations.json');
+var lastKnownLocation = {};
+var objective = {};
 
 app.use(express.static('public'));
 
@@ -40,21 +35,53 @@ app.route('/location')
   .post(function(req, res) {
     // TODO: this is only for internal use, perhaps secure it in some way?
     console.log(req.body.location);
-    lastKnownLocation = req.body.location;
+    if (!locations[req.body.location]) {
+      res.status(500).json({
+        "success": false,
+        "message": "unknown location"
+      });
+      return;
+    }
+
+    lastKnownLocation = locations[req.body.location];
 
     // If the location is either start or end of the track, stop
-    if (req.body.location === locations[0] || req.body.location === locations[locations.size - 1])
+    if (locations[req.body.location] === "Start" || locations[req.body.location] === "End")
       train.stop();
 
     // If the location has been set as an objective, also stop.
-    if (req.body.location === objective) {
+    if (locations[req.body.location] === objective) {
       train.stop();
-      objective = "";
+      objective = {};
     }
 
     res.json({
       "success": true
     });
+  });
+
+app.route('/objective')
+  // Get the current objective
+  .get(function(req, res) {
+    res.json({
+      "success": true,
+      "objective": objective
+    });
+  })
+  // Set the current objective (e.g. go to location)
+  .post(function(req, res) {
+    var target = locations[req.body.location];
+    if (!target) {
+      res.status(500).json({
+        "success": false,
+        "message": "Unknown location."
+      });
+      return;
+    }
+    console.log('Train moving to ' + target["name"]);
+    objective = target;
+    var current = lastKnownLocation["position"];
+    train.setSpeed(Math.ceil(target["position"] - current / Math.abs(target["position"] - current)));
   });
 
 // Get all the current locations
@@ -85,7 +112,7 @@ app.post('/speed', function(req, res) {
   }
   console.log('Set speed: ' + speed);
   train.setSpeed(speed);
-  objective = ""; // TODO: maybe not do this?
+  objective = {}; // TODO: maybe not do this?
 
   res.json({
     "success": true,
@@ -124,30 +151,12 @@ app.post('/tilt', function(req, res) {
   })
 });
 
-
-// Go to a specified location
-app.post('/go', function(req, res) {
-  var target = locations.indexOf(req.body.location);
-  if (!location || target == -1) {
-    req.status(500).json({
-      "success": false,
-      "message": "Unknown location."
-    });
-    return;
-  }
-  console.log('Train moving to ' + req.body.location);
-  objective = req.body.location;
-  var current = locations.indexOf(lastKnownLocation);
-  train.setSpeed(target - current / Math.abs(target - current));
-});
-
 app.post('/center', function(req, res) {
   swivelapi.center();
 
   res.json({
     "success": true,
-  })
-
+  });
 });
 
 server.listen(PORT, function() {
