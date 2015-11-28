@@ -1,5 +1,10 @@
 function goTo(location) {
   console.log('location',location);
+  post('objective', {
+    location: location
+  }, function() {
+    // callback
+  });
   animate();
 }
 

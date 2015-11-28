@@ -138,8 +138,6 @@
 			margin-bottom: 2px;
 		}
 
-
-
 		.trainRiding {
 
 		}
@@ -160,7 +158,7 @@
 		canvas is displayed on the website is dictated by the CSS style.
 	-->
 	<div class="ridingTrainAnimation">
-		<img src="img/train.png" />
+		<img src="/img/train.png" />
 	</div>
 
 	<div class="wrapper">
@@ -198,20 +196,17 @@
 			<header>
 				Stationnetjes
 			</header>
-			<button onclick="goTo('front')">Begin</button>
-			<button onclick="goTo('1')">1</button>
-			<button onclick="goTo('2')">2</button>
-			<button onclick="goTo('end')">Eind</button>
+			{% for location in locations %}
+				<button onclick="goTo('{{ location["uid"] }}')">{{ location["name"] }}</button>
+			{% endfor %}
 		</div>
 	</div>
 
-
-
 	<!-- <audio autoplay loop>
-		<source src="sound/sound.mp3" type="audio/mp3">
+		<source src="/sound/sound.mp3" type="audio/mp3">
 	</audio> -->
-	<script type="text/javascript" src="jsmpg.js"></script>
-	<script type="text/javascript" src="controls.js"></script>
+	<script type="text/javascript" src="/js/jsmpg.js"></script>
+	<script type="text/javascript" src="/js/controls.js"></script>
 	<script type="text/javascript">
 		// Setup the WebSocket connection and start the player
 		var client = new WebSocket( 'ws://q42-live-1.herokuapp.com/test' );
